@@ -1,0 +1,41 @@
+{
+  "name": "scaledown_cleanup",
+  "description": "Removes nodes and client keys from chef server upon shutdown (runlevel 0 aka AWS termination)",
+  "long_description": "scaledown_cleanup Cookbook\n==========================\nThis cookbook allows your nodes to act as remote workstations to delete themselves from the chef server during scaledown. Intended for auto-scaling groups as any machine entering run level 0 will remove itself from chef. Probably not the best practice for managing your chef server but YOLO!\n\nRequirements\n------------\nNo requirements at the moment beside chef. Only tested on Ubuntu 12.04.\n\n\nAttributes\n----------\n['chef']['url']\n['chef']['client_key']\n['chef']['validation_client_name']\n['chef']['validation_key']\n\n\nUsage\n-----\n#### scaledown_cleanup::default\nTwo steps:\n  1. Include recipe in your front-end's run list (via role or env or recipe)\n  2. Personalize the attributes for your infrastructure\n\n\nFeatures\\ToDos:\n---------------\n1. Attribute out some more variables.\n2. Test to see if it works on other Linux distros\n\n\nContributing\n------------\n\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write your change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: Brendan Ledoux\n",
+  "maintainer": "Optaros",
+  "maintainer_email": "bledoux@optaros.com",
+  "license": "Apache 2.0",
+  "platforms": {
+
+  },
+  "dependencies": {
+
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.1.0",
+  "source_url": "",
+  "issues_url": ""
+}

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#This script will delete the server's  node & client key during shutdown run level 0.
+<% if node['platform_family'] == 'debian' %>
+	. /lib/lsb/init-functions
+<% elsif node['platform_family'] == 'rhel' %>
+	. /etc/rc.d/init.d/functions
+<% end %>
+
+
+stop () {
+sudo /usr/bin/knife node delete <%= node['hostname'] %> --yes 
+sudo /usr/bin/knife client delete <%= node['hostname'] %> --yes
+}
+
+reload () {
+        rm /etc/chef/client.pem
+        chef-client
+}
+
+case "$1" in
+        stop)
+                stop
+        ;;
+
+        reload)
+                reload
+        ;;
+
+esac
+exit 0
+
+
