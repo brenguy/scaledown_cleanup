@@ -36,10 +36,9 @@ template "knife.rb" do
 end
 
 #Installs the acpid package for hvm instances.
-if node['virtualization_type'] == 'hvm' 
-      package "acpid" do
-        action :install
-      end
+package "acpid" do
+  action :install
+  only_if { node['virtualization_type'] == 'hvm' }
 end
 
 #The guts of the cookbook...
