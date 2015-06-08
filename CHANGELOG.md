@@ -2,7 +2,11 @@ scaledown_cleanup CHANGELOG
 ===========================
 
 This file is used to list changes made in each version of the scaledown_cleanup cookbook.
+0.2.2
+- [Brendan Ledoux] - Fixed some stuff foodcritic was complaining about. Used service resource.
 
+0.2.1
+- [Brendan Ledoux] - Updated readme, nothing special.
 0.2.0
 - [Brendan Ledoux] - Added systemd support and HVM support.
 

@@ -35,7 +35,7 @@ template "knife.rb" do
   source "knife.rb.erb"
 end
 
-#Installs the listener package for hvm instances.
+#Installs the acpid package for hvm instances.
 if node['virtualization_type'] == 'hvm' 
       package "acpid" do
         action :install
@@ -44,12 +44,8 @@ end
 
 #The guts of the cookbook...
 if node['virtualization_type'] == 'hvm' && node['systemd'] == false
-  execute "enable acpid" do
-    command "service enable acpid"
-  end
-
-  execute "start acpid" do
-    command "service start acpid"
+  service "acpid" do
+    action [:enable, :start]
   end
 
   #The script that runs on shutdown
@@ -79,12 +75,8 @@ if node['virtualization_type'] == 'hvm' && node['systemd'] == false
   end
 
 elsif node['virtualization_type'] == 'hvm' && node['systemd'] == true
-  execute "enable acpid" do
-    command "systemctl enable acpid"
-  end
-
-  execute "start acpid" do
-    command "systemctl start acpid"
+  service "acpid" do
+    action [:enable, :start]
   end
 
   #The systemd service file that calls the chef remove script
@@ -105,9 +97,8 @@ elsif node['virtualization_type'] == 'hvm' && node['systemd'] == true
     mode 0755
   end
 
-  execute "enable chef removal service" do
-    cwd "/lib/systemd/system/"
-    command "systemctl enable chef_removal.service"
+  service "chef_removal.service" do
+    action :enable
   end
 
 elsif node['virtualization_type'] == 'pv' && node['systemd'] == false
@@ -138,12 +129,9 @@ elsif node['virtualization_type'] == 'pv' && node['systemd'] == false
   end
 
 elsif node['virtualization_type'] == 'pv' && node['systemd'] == true
-  execute "enable acpid" do
-    command "systemctl enable acpid"
-  end
-
-  execute "start acpid" do
-    command "systemctl start acpid"
+  
+  service "acpid" do
+    action [:enable, :start]
   end
 
   #The systemd service file that calls the chef remove script
@@ -164,9 +152,8 @@ elsif node['virtualization_type'] == 'pv' && node['systemd'] == true
     mode 0755
   end
 
-  execute "enable chef removal service" do
-    cwd "/lib/systemd/system/"
-    command "systemctl enable chef_removal.service"
+  service "chef_removal.service" do
+    action :enable
   end
 end
     

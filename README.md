@@ -7,15 +7,14 @@ Gives you the choice of SysV init scripts or Systemd units to clean up your chef
 
 Requirements
 ------------
-You must set the below attributes. Most importantly you have to set whether your instance uses HVM or PV virutalization and if you want to use SysV or Systemd. Easiest way to use this cookbook is SysV scripts unless you follow some brief manual steps to set up systemd correctly. 
+You must set the below attributes. Most importantly you have to set whether your instance uses HVM or PV virutalization and if you want to use SysV or Systemd. Easiest way to use this cookbook is SysV scripts otherwise you'll follow some brief manual steps to set up systemd correctly. 
 
 
 
 Platform
 --------
 * This cookbook passed manual tests on Ubuntu 12.04 and Redhat 7.1.
-* Ubuntu 12.04
-* Redhat 7.1 (only tested systemd script)
+
 
 
 
@@ -40,7 +39,7 @@ Otherwise prepare yourselves for the modern age! Systemd usage is a bit more inv
 
 Systemd adoption of major Linux distributions (wikipedia) per version\release date:
 
-
+```
 |----------------+---------------+--------------|
 |       OS       | Added to repo |   Default    | 
 |----------------+---------------+--------------|
@@ -64,6 +63,7 @@ Systemd adoption of major Linux distributions (wikipedia) per version\release da
 |----------------+---------------+--------------|
 |Ubuntu          | (v13.04) 2013 | (v15.04) 2015|
 |----------------+---------------+--------------|
+```
 
 *The "added to repo" specifies when systemd became available to an OS via its software repos. "Default" is the first version of the OS that comes stock with systemd as its system manager.
 
