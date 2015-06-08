@@ -1,8 +1,8 @@
 log_level                :info
 log_location             STDOUT
 node_name				 "<%= node['hostname'] %>"
-client_key               "<%= node['chef']['client_key'] %>"
-validation_client_name   "<%= node['chef']['validation_client_name'] %>"
-validation_key           "<%= node['chef']['validation_key'] %>"
-chef_server_url          "<%= node['chef']['url'] %>"
+client_key               "<%= node['scaledown_cleanup']['chef']['client_key'] %>"
+validation_client_name   "<%= node['scaledown_cleanup']['chef']['validation_client_name'] %>"
+validation_key           "<%= node['scaledown_cleanup']['chef']['validation_key'] %>"
+chef_server_url          "<%= node['scaledown_cleanup']['chef']['url'] %>"
 syntax_check_cache_path  '/etc/chef/syntax_check_cache'

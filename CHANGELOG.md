@@ -2,6 +2,9 @@ scaledown_cleanup CHANGELOG
 ===========================
 
 This file is used to list changes made in each version of the scaledown_cleanup cookbook.
+0.2.3
+- [Brendan Ledoux] - Fixed some more things that foodcritic was complaining about. Took attributes out of global space as well.
+
 0.2.2
 - [Brendan Ledoux] - Fixed some stuff foodcritic was complaining about. Used service resource.
 

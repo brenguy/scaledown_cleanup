@@ -38,11 +38,11 @@ end
 #Installs the acpid package for hvm instances.
 package "acpid" do
   action :install
-  only_if { node['virtualization_type'] == 'hvm' }
+  only_if { node['scaledown_cleanup']['virtualization_type'] == 'hvm' }
 end
 
 #The guts of the cookbook...
-if node['virtualization_type'] == 'hvm' && node['systemd'] == false
+if node['scaledown_cleanup']['virtualization_type'] == 'hvm' && node['scaledown_cleanup']['systemd'] == false
   service "acpid" do
     action [:enable, :start]
   end
@@ -73,7 +73,7 @@ if node['virtualization_type'] == 'hvm' && node['systemd'] == false
     group "root"
   end
 
-elsif node['virtualization_type'] == 'hvm' && node['systemd'] == true
+elsif node['scaledown_cleanup']['virtualization_type'] == 'hvm' && node['scaledown_cleanup']['systemd'] == true
   service "acpid" do
     action [:enable, :start]
   end
@@ -100,7 +100,7 @@ elsif node['virtualization_type'] == 'hvm' && node['systemd'] == true
     action :enable
   end
 
-elsif node['virtualization_type'] == 'pv' && node['systemd'] == false
+elsif node['scaledown_cleanup']['virtualization_type'] == 'pv' && node['scaledown_cleanup']['systemd'] == false
   #The script that runs on shutdown
   template "chef_removal" do
     source "chef_removal_init.sh.erb"
@@ -127,7 +127,7 @@ elsif node['virtualization_type'] == 'pv' && node['systemd'] == false
     group "root"
   end
 
-elsif node['virtualization_type'] == 'pv' && node['systemd'] == true
+elsif node['scaledown_cleanup']['virtualization_type'] == 'pv' && node['scaledown_cleanup']['systemd'] == true
   
   service "acpid" do
     action [:enable, :start]
@@ -155,4 +155,3 @@ elsif node['virtualization_type'] == 'pv' && node['systemd'] == true
     action :enable
   end
 end
-    

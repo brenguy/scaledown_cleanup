@@ -1,7 +1,9 @@
-#sets the url of your chef server amongst other things...
-default['chef']['url'] = ""
-default['chef']['client_key'] = '/etc/chef/client.pem'
-default['chef']['validation_client_name'] = 'chef-validator'
-default['chef']['validation_key'] = '/etc/chef/validator.pem'
-default['virtualization_type'] = "" #hvm or pv
-default['systemd'] = "" #true or false
+#sets the url of your chef server
+default['scaledown_cleanup']['chef']['url'] = "" #your chef url
+default['scaledown_cleanup']['chef']['client_key'] = '/etc/chef/client.pem'
+default['scaledown_cleanup']['chef']['validation_client_name'] = 'chef-validator'
+default['scaledown_cleanup']['chef']['validation_key'] = '/etc/chef/validator.pem'
+default['scaledown_cleanup']['virtualization_type'] = 'hvm'
+default['scaledown_cleanup']['systemd'] = true
+
+
