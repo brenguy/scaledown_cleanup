@@ -3,6 +3,9 @@ scaledown_cleanup CHANGELOG
 
 This file is used to list changes made in each version of the scaledown_cleanup cookbook.
 
+0.2.0
+- [Brendan Ledoux] - Added systemd support and HVM support.
+
 0.1.1
 -----
 - [Brendan Ledoux] - Added dynamic support of debian and rhel families. However This still doesn't work yet. Will be converting to upstart/systemd scripts very shortly.

@@ -7,6 +7,9 @@
 	. /etc/rc.d/init.d/functions
 <% end %>
 
+start () {
+	/usr/bin/echo "Start doesn't do anything!"
+}
 
 stop () {
 sudo /usr/bin/knife node delete <%= node['hostname'] %> --yes 
@@ -19,6 +22,9 @@ reload () {
 }
 
 case "$1" in
+		start)
+			start
+		;;
         stop)
                 stop
         ;;

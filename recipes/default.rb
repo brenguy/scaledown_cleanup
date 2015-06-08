@@ -35,23 +35,138 @@ template "knife.rb" do
   source "knife.rb.erb"
 end
 
-
-
-#The script that runs on shutdown
-template "chef_removal" do
-  source "chef_removal.sh.erb"
-  path "/etc/init.d/chef_removal.sh"
-  owner "root"
-  group "root"
-  mode 0777
-  not_if { File.exist?("/etc/init.d/chef_removal.sh") }
+#Installs the listener package for hvm instances.
+if node['virtualization_type'] == 'hvm' 
+      package "acpid" do
+        action :install
+      end
 end
 
-#Symlinking script to run level 0 for power off
-link "kill_chef_link" do
-  target_file "/etc/rc0.d/K01Remove_Chef.sh"
-  to "/etc/init.d/chef_removal.sh"
-  link_type :symbolic
-  owner "root"
-  group "root"
+#The guts of the cookbook...
+if node['virtualization_type'] == 'hvm' && node['systemd'] == false
+  execute "enable acpid" do
+    command "service enable acpid"
+  end
+
+  execute "start acpid" do
+    command "service start acpid"
+  end
+
+  #The script that runs on shutdown
+  template "chef_removal" do
+    source "chef_removal_init.sh.erb"
+    path "/etc/init.d/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0777
+  end
+  #The script that runs on shutdown
+  template "chef_removal" do
+    source "chef_removal_init.sh.erb"
+    path "/etc/init.d/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0777
+  end
+
+  #Symlinking script to run level 0 for power off
+  link "kill_chef_link" do
+    target_file "/etc/rc0.d/K01Remove_Chef.sh"
+    to "/etc/init.d/chef_removal.sh"
+    link_type :symbolic
+    owner "root"
+    group "root"
+  end
+
+elsif node['virtualization_type'] == 'hvm' && node['systemd'] == true
+  execute "enable acpid" do
+    command "systemctl enable acpid"
+  end
+
+  execute "start acpid" do
+    command "systemctl start acpid"
+  end
+
+  #The systemd service file that calls the chef remove script
+  template "chef_removal.service" do
+    source "chef_removal.service.erb"
+    path "/lib/systemd/system/chef_removal.service"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+
+  #The script that actually kills chef. Reload brings back chef connectivity (without run-list)
+  template "chef_removal_sysd.sh" do
+    source "chef_removal_sysd.sh.erb"
+    path "/usr/local/bin/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0755
+  end
+
+  execute "enable chef removal service" do
+    cwd "/lib/systemd/system/"
+    command "systemctl enable chef_removal.service"
+  end
+
+elsif node['virtualization_type'] == 'pv' && node['systemd'] == false
+  #The script that runs on shutdown
+  template "chef_removal" do
+    source "chef_removal_init.sh.erb"
+    path "/etc/init.d/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0777
+  end
+  #The script that runs on shutdown
+  template "chef_removal" do
+    source "chef_removal_init.sh.erb"
+    path "/etc/init.d/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0777
+  end
+
+  #Symlinking script to run level 0 for power off
+  link "kill_chef_link" do
+    target_file "/etc/rc0.d/K01Remove_Chef.sh"
+    to "/etc/init.d/chef_removal.sh"
+    link_type :symbolic
+    owner "root"
+    group "root"
+  end
+
+elsif node['virtualization_type'] == 'pv' && node['systemd'] == true
+  execute "enable acpid" do
+    command "systemctl enable acpid"
+  end
+
+  execute "start acpid" do
+    command "systemctl start acpid"
+  end
+
+  #The systemd service file that calls the chef remove script
+  template "chef_removal.service" do
+    source "chef_removal.service.erb"
+    path "/lib/systemd/system/chef_removal.service"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+
+  #The script that actually kills chef. Reload brings back chef connectivity (without run-list)
+  template "chef_removal_sysd.sh" do
+    source "chef_removal_sysd.sh.erb"
+    path "/usr/local/bin/chef_removal.sh"
+    owner "root"
+    group "root"
+    mode 0755
+  end
+
+  execute "enable chef removal service" do
+    cwd "/lib/systemd/system/"
+    command "systemctl enable chef_removal.service"
+  end
 end
+    

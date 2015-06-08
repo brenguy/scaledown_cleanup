@@ -1,0 +1,16 @@
+#   Run a shutdown script to remove chef node id + key from chef server.
+
+[Unit]
+Description=Removes chef object id and client key from chef server
+Before=poweroff.target shutdown.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/chef_removal.sh start
+ExecStop=/usr/local/bin/chef_removal.sh stop
+ExecReload=/usr/local/bin/chef_removal.sh reload
+RemainAfterExit=yes
+
+[Install]
+WantedBy=shutdown.target poweroff.target
